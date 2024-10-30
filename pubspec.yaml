@@ -1,8 +1,15 @@
 name: mobile_project
+<<<<<<< HEAD
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+=======
+description: "Football Booking Project"
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+>>>>>>> nam_kimly
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -31,10 +38,17 @@ dependencies:
   flutter:
     sdk: flutter
 
+<<<<<<< HEAD
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+=======
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  fluentui_system_icons: ^1.1.0
+>>>>>>> nam_kimly
   device_preview: ^1.2.0
 
 dev_dependencies:
@@ -53,7 +67,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+<<<<<<< HEAD
 
+=======
+>>>>>>> nam_kimly
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

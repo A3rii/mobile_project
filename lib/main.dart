@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:device_preview/device_preview.dart';
 
 void main() {
@@ -8,6 +9,11 @@ void main() {
       builder: (context) => const MyApp(),
     ),
   );
+=======
+
+void main() {
+  runApp(const MyApp());
+>>>>>>> nam_kimly
 }
 
 class MyApp extends StatelessWidget {
@@ -18,8 +24,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+<<<<<<< HEAD
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
+=======
+>>>>>>> nam_kimly
       theme: ThemeData(
         // This is the theme of your application.
         //

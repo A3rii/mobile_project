@@ -9,16 +9,29 @@
 .history
 .svn/
 migrate_working_dir/
+<<<<<<< HEAD
 .cache/
 
 # IDE-specific settings
+=======
+
+# IntelliJ related
+>>>>>>> nam_kimly
 *.iml
 *.ipr
 *.iws
 .idea/
+<<<<<<< HEAD
 .vscode/
 *.code-workspace
 .sublime-workspace
+=======
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+>>>>>>> nam_kimly
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -40,6 +53,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+<<<<<<< HEAD
 
 # Backup files or temporary editor files
 *~
@@ -51,3 +65,5 @@ Thumbs.db
 
 # Crash reports
 crashlytics/
+=======
+>>>>>>> nam_kimly
