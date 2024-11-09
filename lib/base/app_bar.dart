@@ -11,8 +11,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         title: const Text(
           "Football Rental Club",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.green);
+        backgroundColor: Colors.white);
   }
 }

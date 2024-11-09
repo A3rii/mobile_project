@@ -24,6 +24,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
       case 1:
         Navigator.pushReplacementNamed(context, '/profile');
         break;
+      case 2:
+        Navigator.pushReplacementNamed(context, '/settings');
+        break;
 
       default:
         Navigator.pushReplacementNamed(context, '/home');
