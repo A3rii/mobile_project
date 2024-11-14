@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "mobile_project",
     "short_name": "mobile_project",
+=======
+    "name": "recover_project",
+    "short_name": "recover_project",
+>>>>>>> nam_kimly
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
