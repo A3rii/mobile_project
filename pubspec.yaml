@@ -38,6 +38,8 @@ dependencies:
   device_preview: ^1.2.0
   fluentui_system_icons: ^1.1.0
   fluentui_icons: ^1.0.0
+  another_carousel_pro: ^1.0.2
+  bottom_picker: ^2.9.0
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,9 @@ flutter:
     - assets/images/sign_up.png
     - assets/images/login.png
     
+    - assets/images/football-court.jpg
+    - assets/images/football-court-1.jpg
+    - assets/images/football-court-2.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

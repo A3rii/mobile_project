@@ -61,7 +61,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         BottomNavigationBarItem(
           icon: Icon(FluentIcons.person_24_regular),
           activeIcon: Icon(FluentIcons.person_24_filled),
-          label: 'Profile',
+          label: 'Account',
         ),
         BottomNavigationBarItem(
           icon: Icon(FluentIcons.settings_24_regular),
