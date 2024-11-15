@@ -1,4 +1,3 @@
-
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -23,18 +22,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
         Navigator.pushReplacementNamed(context, '/home');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/profile');
+        Navigator.pushReplacementNamed(context, '/account');
         break;
       case 2:
         Navigator.pushReplacementNamed(context, '/settings');
-        break;
-
-        case 3:
-        Navigator.pushReplacementNamed(context, '/signup');
-        break;
-
-        case 4:
-        Navigator.pushReplacementNamed(context, '/login');
         break;
 
       default:
@@ -67,16 +58,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
           icon: Icon(FluentIcons.settings_24_regular),
           activeIcon: Icon(FluentIcons.settings_24_filled),
           label: 'Settings',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(FluentIcons.settings_24_regular),
-          activeIcon: Icon(FluentIcons.settings_24_filled),
-          label: 'signup',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(FluentIcons.settings_24_regular),
-          activeIcon: Icon(FluentIcons.settings_24_filled),
-          label: 'login',
         ),
       ],
       onTap: _onTapNavigation,

@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_project/pages/account.dart';
 import 'package:mobile_project/pages/detail.dart';
 import 'package:mobile_project/pages/home.dart';
 import 'package:mobile_project/pages/profile.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => const SettingsPage(),
         '/login': (context) => const LoginPage(),
         '/detail': (context) => const DetailPage(),
+        '/account': (context) => const AccountPage(),
         '/signup': (context) => const SignUpPage()
       },
     );

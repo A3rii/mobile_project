@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:mobile_project/pages/auth/login.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -14,8 +15,8 @@ class SignUpPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 40),
-              Center(
-                child: const Image(
+              const Center(
+                child: Image(
                   fit: BoxFit.cover,
                   image: AssetImage("assets/images/sign_up.png"),
                   height: 250,
@@ -144,7 +145,12 @@ class SignUpPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigate to Sign In page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
                     },
                     child: const Text(
                       "Sign In",
