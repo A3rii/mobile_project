@@ -17,8 +17,14 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: TextField(
                 decoration: InputDecoration(
-              prefixIcon: Icon(FluentIcons.search_12_regular),
-              suffixIcon: Icon(FluentIcons.filter_12_filled),
+              prefixIcon: Icon(
+                FluentIcons.search_12_regular,
+                color: Colors.green,
+              ),
+              suffixIcon: Icon(
+                FluentIcons.filter_12_filled,
+                color: Colors.green,
+              ),
               labelText: "Search",
               floatingLabelStyle: TextStyle(color: Colors.green),
               filled: true,
@@ -83,7 +89,8 @@ class HomePage extends StatelessWidget {
                       const SizedBox(height: 2.0),
                       const Text("20/hour",
                           style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold)),
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold)),
                       const SizedBox(height: 2.0),
                       const Row(
                         children: [
