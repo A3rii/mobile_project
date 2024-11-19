@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -22,7 +23,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
         Navigator.pushReplacementNamed(context, '/home');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/account');
+        if (FirebaseAuth.instance.currentUser != null) {
+          // signed in
+          Navigator.pushReplacementNamed(context, '/profile');
+        } else {
+          // signed out
+          Navigator.pushReplacementNamed(context, '/account');
+        }
+
         break;
       case 2:
         Navigator.pushReplacementNamed(context, '/settings');

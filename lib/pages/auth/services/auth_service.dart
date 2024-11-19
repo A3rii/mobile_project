@@ -47,4 +47,12 @@ class AuthService {
       throw Exception(message); // Throw the error to be caught in the UI layer
     }
   }
+
+  Future<void> logOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e); // Throw the error to be caught in the UI layer
+    }
+  }
 }
