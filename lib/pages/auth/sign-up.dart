@@ -1,9 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:mobile_project/pages/auth/login.dart';
+import 'package:mobile_project/pages/auth/services/auth_service.dart';
+import 'package:mobile_project/pages/home.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  // TextEditingControllers to capture user input
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up controllers
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> handleSignUp() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+    final confirmPassword = confirmPasswordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("All fields are required")),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+
+    try {
+      await AuthService().signup(email: email, password: password);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Sign-up successful")),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +94,11 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
                   prefixIcon: Icon(FluentIcons.person_24_regular),
-                  labelText: "Username",
+                  labelText: "Email",
                   floatingLabelStyle: TextStyle(color: Colors.green),
                   filled: true,
                   fillColor: Colors.white,
@@ -56,8 +113,9 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
                   prefixIcon: Icon(FluentIcons.lock_closed_24_regular),
                   labelText: "Password",
                   floatingLabelStyle: TextStyle(color: Colors.green),
@@ -75,8 +133,9 @@ class SignUpPage extends StatelessWidget {
                 obscureText: true,
               ),
               const SizedBox(height: 10),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: confirmPasswordController,
+                decoration: const InputDecoration(
                   prefixIcon: Icon(FluentIcons.lock_closed_24_regular),
                   labelText: "Confirm Password",
                   floatingLabelStyle: TextStyle(color: Colors.green),
@@ -93,32 +152,11 @@ class SignUpPage extends StatelessWidget {
                 ),
                 obscureText: true,
               ),
-              const SizedBox(height: 10),
-              const TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(FluentIcons.phone_24_regular),
-                  labelText: "Phone Number",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
-                  ),
-                ),
-                keyboardType: TextInputType.phone,
-              ),
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Sign Up button pressed
-                  },
+                  onPressed: handleSignUp,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -145,12 +183,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
+                      // Navigate to Sign In page
                     },
                     child: const Text(
                       "Sign In",
