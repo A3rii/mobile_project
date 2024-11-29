@@ -23,6 +23,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
         Navigator.pushReplacementNamed(context, '/home');
         break;
       case 1:
+        Navigator.pushReplacementNamed(context, '/location');
+        break;
+      case 2:
         if (FirebaseAuth.instance.currentUser != null) {
           // signed in
           Navigator.pushReplacementNamed(context, '/profile');
@@ -32,7 +35,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
         }
 
         break;
-      case 2:
+
+      case 3:
         Navigator.pushReplacementNamed(context, '/settings');
         break;
 
@@ -56,6 +60,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
           icon: Icon(FluentIcons.home_24_regular),
           activeIcon: Icon(FluentIcons.home_24_filled),
           label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(FluentIcons.location_12_regular),
+          activeIcon: Icon(FluentIcons.location_12_filled),
+          label: 'Location',
         ),
         BottomNavigationBarItem(
           icon: Icon(FluentIcons.person_24_regular),

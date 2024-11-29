@@ -21,6 +21,17 @@ class _HomePageState extends State<HomePage> {
     courtsFuture = courtApi.getCourts();
   }
 
+  void navigateToDetailPage(BuildContext context, String courtId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailPage(
+          courtId: courtId,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseLayout(
@@ -41,7 +52,6 @@ class _HomePageState extends State<HomePage> {
           }
 
           final courts = snapshot.data!;
-
           return ListView(
             padding: const EdgeInsets.all(10.0),
             children: [
@@ -61,7 +71,11 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.green,
                         ),
                         labelText: "Search",
-                        floatingLabelStyle: TextStyle(color: Colors.green),
+                        floatingLabelStyle: TextStyle(
+                          color: Colors.green,
+                          fontFamily: 'Mont',
+                          fontWeight: FontWeight.w300,
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
@@ -85,11 +99,17 @@ class _HomePageState extends State<HomePage> {
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 13.0, left: 18.0),
-                child: Text("Football Court"),
+                child: Text(
+                  "Football Court",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: "Mont",
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-              // Render the list of courts dynamically
               Column(
                 children: courts.map((court) {
+                  final String courtId = court['id'] ?? 'unknown';
                   return Container(
                     margin: const EdgeInsets.only(top: 10.0),
                     padding: const EdgeInsets.all(10.0),
@@ -106,7 +126,8 @@ class _HomePageState extends State<HomePage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image.network(
-                              court['image'] ?? '', // Handle null image URL
+                              court['feature_image'] ??
+                                  '', // Handle null image URL
                               width: 315.0,
                               height: 150.0,
                               fit: BoxFit.cover,
@@ -133,17 +154,19 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                court['name'] ??
-                                    'Unknown Court', // Handle null name
+                                "${court['name'] ?? 'unknown'} court", // Handle null name
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontFamily: 'Mont',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
                               ),
                               const SizedBox(height: 2.0),
                               Text(
-                                "${court['price'] ?? '0'}/hour", // Handle null price
+                                "${court['price'] ?? '0'}\$/ hour", // Handle null price
                                 style: const TextStyle(
                                   color: Colors.green,
-                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Mont',
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                               const SizedBox(height: 2.0),
@@ -154,7 +177,13 @@ class _HomePageState extends State<HomePage> {
                                     size: 15.0,
                                   ),
                                   SizedBox(width: 3.0),
-                                  Text("Complex Sport Center"),
+                                  Text(
+                                    "Complex Sport Center",
+                                    style: TextStyle(
+                                      fontFamily: 'Mont',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 8.0),
@@ -167,11 +196,24 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius: BorderRadius.circular(6.0),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (courtId != 'unknown') {
+                                    navigateToDetailPage(context, court['id']);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Invalid court ID, cannot navigate."),
+                                      ),
+                                    );
+                                  }
+                                },
                                 child: const Text(
                                   'Book Now',
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontFamily: 'Mont',
+                                    fontWeight: FontWeight.w400,
                                     fontSize: 13.0,
                                   ),
                                 ),
