@@ -24,7 +24,8 @@ class BookingApi {
         'court': courtRef, // Save the reference for the court
         'user': userRef, // Save the reference for the user
         'time_start': timeStart,
-        'time_end': timeEnd, // Convert DateTime to Firestore Timestamp
+        'time_end': timeEnd,
+        'status': "pending", // Convert DateTime to Firestore Timestamp
         'created_at':
             Timestamp.now(), // Optional: Track when booking is created
       });

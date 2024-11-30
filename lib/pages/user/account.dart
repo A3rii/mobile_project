@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_project/base/bottom_navigation.dart';
+import 'package:mobile_project/base/user/bottom_navigation.dart';
 import 'package:mobile_project/pages/auth/login.dart';
 import 'package:mobile_project/pages/auth/sign-up.dart';
 

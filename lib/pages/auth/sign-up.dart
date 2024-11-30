@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:mobile_project/pages/home.dart';
+import 'package:mobile_project/pages/user/home.dart';
 import 'package:mobile_project/pages/auth/services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {

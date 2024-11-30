@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_project/pages/detail.dart';
+import 'package:mobile_project/pages/user/detail.dart';
 import 'package:mobile_project/widgets/base_layout.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:mobile_project/services/court_api.dart';

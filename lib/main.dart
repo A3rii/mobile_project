@@ -1,11 +1,12 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_project/pages/account.dart';
-import 'package:mobile_project/pages/home.dart';
-import 'package:mobile_project/pages/location.dart';
-import 'package:mobile_project/pages/profile.dart';
-import 'package:mobile_project/pages/settings.dart';
+import 'package:mobile_project/pages/admin/accept_screen.dart';
+import 'package:mobile_project/pages/user/account.dart';
+import 'package:mobile_project/pages/user/home.dart';
+import 'package:mobile_project/pages/user/location.dart';
+import 'package:mobile_project/pages/user/profile.dart';
+import 'package:mobile_project/pages/user/settings.dart';
 import 'package:mobile_project/pages/auth/sign-up.dart';
 import 'package:mobile_project/pages/auth/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/account': (context) => const AccountPage(),
         '/signup': (context) => const SignUpPage(),
-        '/location': (context) => const LocationPage()
+        '/location': (context) => const LocationPage(),
+        '/accept': (context) => const AcceptedPage()
       },
     );
   }
