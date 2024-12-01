@@ -195,6 +195,7 @@ class _HomePageState extends State<HomePage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(6.0),
                                   ),
+                                  elevation: 0,
                                 ),
                                 onPressed: () {
                                   if (courtId != 'unknown') {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:mobile_project/pages/admin/accept_screen.dart';
 import 'package:mobile_project/pages/auth/sign-up.dart';
 import 'package:mobile_project/pages/auth/services/auth_service.dart';
 import 'package:mobile_project/pages/user/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,15 +36,50 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
     try {
+      // Authenticate user
       await AuthService().login(email: email, password: password);
+
+      // Display success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Login successful")),
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
+
+      // Get the currently authenticated user
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Assuming you store user roles in Firestore
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        if (userDoc.exists) {
+          final userData = userDoc.data();
+          final role = userData?['role']; // Retrieve the 'role' field
+
+          // Navigate based on role
+          if (role == "user") {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          } else if (role == "admin") {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const AcceptedPage()),
+            );
+          } else {
+            throw Exception("Invalid user role");
+          }
+        } else {
+          throw Exception("User data not found");
+        }
+      } else {
+        throw Exception("No authenticated user");
+      }
     } catch (e) {
+      // Display error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: $e")),
       );

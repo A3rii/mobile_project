@@ -62,10 +62,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(FluentIcons.location_12_regular),
-          activeIcon: Icon(FluentIcons.location_12_filled),
-          label: 'Location',
-        ),
+            icon: Icon(FluentIcons.ticket_diagonal_16_regular),
+            activeIcon: Icon(FluentIcons.ticket_diagonal_16_filled),
+            label: 'Ticket'),
         BottomNavigationBarItem(
           icon: Icon(FluentIcons.person_24_regular),
           activeIcon: Icon(FluentIcons.person_24_filled),

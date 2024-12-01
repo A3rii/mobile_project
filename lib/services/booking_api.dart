@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingApi {
-  // POST req for booking
+  // POST req for bookings
   Future<DocumentReference<Object?>> requestBooking({
     required String courtId,
     required String userId,
@@ -31,6 +31,39 @@ class BookingApi {
       });
     } on FirebaseException catch (e) {
       throw Exception("Failed to send bookings: ${e.message}");
+    } catch (e) {
+      throw Exception("An unexpected error occurred: $e");
+    }
+  }
+
+  // Bookings for admin
+  Future<List<Map<String, dynamic>>> getUsersBookings() async {
+    try {
+      // Fetch all bookings
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection("bookings").get();
+
+      // Transform each booking document
+      return await Future.wait(querySnapshot.docs.map((doc) async {
+        final data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id;
+
+        // Check if `user` reference exists and fetch its data
+        if (data['user'] is DocumentReference) {
+          DocumentSnapshot userSnapshot = await data['user'].get();
+          data['user'] = userSnapshot.data();
+        }
+
+        // Check if `court` reference exists and fetch its data
+        if (data['court'] is DocumentReference) {
+          DocumentSnapshot courtSnapshot = await data['court'].get();
+          data['court'] = courtSnapshot.data();
+        }
+
+        return data;
+      }).toList());
+    } on FirebaseException catch (e) {
+      throw Exception("Failed to fetch bookings: ${e.message}");
     } catch (e) {
       throw Exception("An unexpected error occurred: $e");
     }
