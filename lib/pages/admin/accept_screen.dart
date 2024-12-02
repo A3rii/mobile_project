@@ -18,7 +18,29 @@ class _AcceptedPageState extends State<AcceptedPage> {
   @override
   void initState() {
     super.initState();
+    fetchBookings();
     bookingFuture = bookingApi.getUsersBookings();
+  }
+
+  void fetchBookings() {
+    setState(() {
+      bookingFuture = bookingApi.getUsersBookings();
+    });
+  }
+
+  void updateBookingStatus(String bookingId, String status) async {
+    try {
+      await bookingApi.updateBookingStatus(
+          bookingId: bookingId, status: status);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Status update successfully"),
+        ),
+      );
+      fetchBookings();
+    } catch (e) {
+      throw Exception("An unexpected error occurred: $e");
+    }
   }
 
   @override
@@ -43,6 +65,9 @@ class _AcceptedPageState extends State<AcceptedPage> {
           }
 
           final bookings = snapshot.data!;
+          final filterPendingbookings = bookings
+              .where((booking) => booking['status'] == "pending")
+              .toList();
 
           return ListView(padding: const EdgeInsets.all(10.0), children: [
             Row(
@@ -64,7 +89,9 @@ class _AcceptedPageState extends State<AcceptedPage> {
               ],
             ),
             Column(
-              children: bookings.map((booking) {
+              children: filterPendingbookings.map((booking) {
+                final String bookingId = booking['id'] ?? 'unknown';
+
                 return Container(
                   margin: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                   padding: const EdgeInsets.all(20.0),
@@ -122,6 +149,10 @@ class _AcceptedPageState extends State<AcceptedPage> {
                         "Phone: ${booking['user']?['phoneNumber'] ?? 'N/A'}",
                         style: const TextStyle(fontSize: 16.0),
                       ),
+                      Text(
+                        "Status: ${booking['status'] ?? 'N/A'}",
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
                       const SizedBox(height: 15.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -137,7 +168,8 @@ class _AcceptedPageState extends State<AcceptedPage> {
                               ),
                               elevation: 0,
                             ),
-                            onPressed: () {},
+                            onPressed: () =>
+                                updateBookingStatus(bookingId, 'accepted'),
                             child: const Text(
                               'Accept',
                               style: TextStyle(
@@ -156,7 +188,8 @@ class _AcceptedPageState extends State<AcceptedPage> {
                               ),
                               elevation: 0,
                             ),
-                            onPressed: () {},
+                            onPressed: () =>
+                                updateBookingStatus(bookingId, 'rejected'),
                             child: const Text(
                               'Deny',
                               style:

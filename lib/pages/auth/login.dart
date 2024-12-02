@@ -138,6 +138,26 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(FluentIcons.person_24_regular),
+                  labelText: "Username",
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(color: Colors.green),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               TextField(
                 controller: passwordController,
                 decoration: const InputDecoration(

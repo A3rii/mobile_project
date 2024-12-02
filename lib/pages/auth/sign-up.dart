@@ -12,6 +12,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   // TextEditingControllers to capture user input
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -27,11 +29,17 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> handleSignUp() async {
+    final username = userNameController.text.trim(); // Update this for username
     final email = emailController.text.trim();
+    final phone = phoneNumberController.text.trim(); // Update this for phone
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+    if (username.isEmpty ||
+        email.isEmpty ||
+        phone.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("All fields are required")),
       );
@@ -46,7 +54,12 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     try {
-      await AuthService().signup(email: email, password: password);
+      await AuthService().signup(
+        username: username,
+        email: email,
+        phone: phone,
+        password: password,
+      );
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Sign-up successful")),
       );
@@ -75,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Image(
                   fit: BoxFit.cover,
                   image: AssetImage("assets/images/sign_up.png"),
-                  height: 250,
+                  height: 200,
                 ),
               ),
               const SizedBox(height: 20),
@@ -95,10 +108,48 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: userNameController,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(FluentIcons.person_24_regular),
+                  labelText: "Username",
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(color: Colors.green),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
                 controller: emailController,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(FluentIcons.person_24_regular),
                   labelText: "Email",
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderSide: BorderSide(color: Colors.green),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: phoneNumberController,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(FluentIcons.person_24_regular),
+                  labelText: "Phone Number",
                   floatingLabelStyle: TextStyle(color: Colors.green),
                   filled: true,
                   fillColor: Colors.white,

@@ -1,18 +1,38 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // Signup method
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<void> signup({
     required String email,
     required String password,
+    required String username,
+    required String phone,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      // Create user with Firebase Auth
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // Get the user's unique ID
+      String uid = userCredential.user!.uid;
+
+      // Add user data to Firestore
+      await _firestore.collection('users').doc(uid).set({
+        'uid': uid,
+        'name': username,
+        'email': email,
+        'phone': phone,
+        'role': 'user',
+        'createdAt': FieldValue.serverTimestamp(),
+      });
     } on FirebaseAuthException catch (e) {
       String message;
       if (e.code == 'weak-password') {
@@ -24,7 +44,7 @@ class AuthService {
       } else {
         message = 'An unexpected error occurred. Please try again.';
       }
-      throw Exception(message); // Throw the error to be caught in the UI layer
+      throw Exception(message);
     }
   }
 

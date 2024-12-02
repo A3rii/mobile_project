@@ -68,4 +68,25 @@ class BookingApi {
       throw Exception("An unexpected error occurred: $e");
     }
   }
+
+// Update Booking Status
+  Future<void> updateBookingStatus({
+    required String bookingId,
+    required String status,
+  }) async {
+    try {
+      DocumentReference documentReference =
+          FirebaseFirestore.instance.collection("bookings").doc(bookingId);
+
+      await documentReference.update({
+        "status": status,
+      });
+    } on FirebaseException catch (e) {
+      throw Exception("Failed to update bookings: ${e.message}");
+    } catch (e) {
+      throw Exception("An unexpected error occurred: $e");
+    }
+  }
+
+  // Editing booking status for user
 }
