@@ -20,10 +20,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
     // Navigate based on the selected index
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/location');
+        Navigator.pushReplacementNamed(context, '/ticket');
         break;
       case 2:
         if (FirebaseAuth.instance.currentUser != null) {

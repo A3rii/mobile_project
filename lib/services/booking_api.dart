@@ -87,6 +87,4 @@ class BookingApi {
       throw Exception("An unexpected error occurred: $e");
     }
   }
-
-  // Editing booking status for user
 }

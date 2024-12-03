@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_project/pages/admin/accept_screen.dart';
 import 'package:mobile_project/pages/user/account.dart';
 import 'package:mobile_project/pages/user/home.dart';
-import 'package:mobile_project/pages/user/location.dart';
+import 'package:mobile_project/pages/user/ticket.dart';
 import 'package:mobile_project/pages/user/profile.dart';
 import 'package:mobile_project/pages/user/settings.dart';
 import 'package:mobile_project/pages/auth/sign-up.dart';
@@ -44,15 +44,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      initialRoute: '/home',
+      initialRoute: '/',
       routes: {
-        '/home': (context) => const HomePage(),
+        '/': (context) => const HomePage(),
         '/profile': (context) => const ProfilePage(),
         '/settings': (context) => const SettingsPage(),
         '/login': (context) => const LoginPage(),
         '/account': (context) => const AccountPage(),
         '/signup': (context) => const SignUpPage(),
-        '/location': (context) => const LocationPage(),
+        '/ticket': (context) => const TicketPage(),
         '/accept': (context) => const AcceptedPage()
       },
     );
