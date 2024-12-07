@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/pages/admin/accept_screen.dart';
+import 'package:mobile_project/pages/admin/create_court.dart';
 import 'package:mobile_project/pages/admin/dashboard.dart';
 import 'package:mobile_project/pages/user/account.dart';
 import 'package:mobile_project/pages/user/home.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         '/ticket': (context) => const TicketPage(),
         '/accept': (context) => const AcceptedPage(),
         '/dashboard': (context) => const DashboardPage(),
+        '/adding-court': (context) => const AddingCourt(),
       },
     );
   }

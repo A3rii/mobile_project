@@ -15,6 +15,9 @@ class _AcceptedPageState extends State<AcceptedPage> {
   final BookingApi bookingApi = BookingApi();
   late Future<List<Map<String, dynamic>>> bookingFuture;
 
+  int? selectedRadio;
+  String selectedValue = 'pending';
+
   @override
   void initState() {
     super.initState();
@@ -67,7 +70,7 @@ class _AcceptedPageState extends State<AcceptedPage> {
           final bookings = snapshot.data!;
 
           final filterPendingbookings = bookings
-              .where((booking) => booking['status'] == "pending")
+              .where((booking) => booking['status'] == selectedValue)
               .toList();
 
           return ListView(padding: const EdgeInsets.all(10.0), children: [
@@ -77,7 +80,23 @@ class _AcceptedPageState extends State<AcceptedPage> {
               children: [
                 PopupMenuButton(
                   onSelected: (value) {
-                    // your logic
+                    setState(() {
+                      selectedValue = value;
+                      switch (value) {
+                        case 'pending':
+                          selectedRadio = 1; // Pending
+                          break;
+                        case 'accepted':
+                          selectedRadio = 2; // Accepted
+                          break;
+                        case 'rejected':
+                          selectedRadio = 3; // Rejected
+                          break;
+                        default:
+                          selectedRadio = 1;
+                          break;
+                      }
+                    });
                   },
                   icon: const Icon(
                     FluentIcons.filter_12_filled,
@@ -86,44 +105,53 @@ class _AcceptedPageState extends State<AcceptedPage> {
                   itemBuilder: (BuildContext bc) {
                     return [
                       PopupMenuItem(
-                        value: '/hello',
+                        value: 'pending',
                         child: ListTile(
                           title: const Text('Pending'),
                           leading: Radio(
                             value: 1,
+                            groupValue: selectedRadio, // Update this
                             onChanged: (value) {
-                              setState(() {});
+                              setState(() {
+                                selectedRadio = value as int;
+                                selectedValue = 'pending';
+                              });
                             },
-                            groupValue: null,
                           ),
                         ),
                       ),
                       PopupMenuItem(
-                        value: '/about',
+                        value: 'accepted',
                         child: ListTile(
                           title: const Text('Accepted'),
                           leading: Radio(
-                            value: 1,
+                            value: 2,
+                            groupValue: selectedRadio,
                             onChanged: (value) {
-                              setState(() {});
+                              setState(() {
+                                selectedRadio = value as int;
+                                selectedValue = 'accepted';
+                              });
                             },
-                            groupValue: null,
                           ),
                         ),
                       ),
                       PopupMenuItem(
-                        value: '/contact',
+                        value: 'rejected',
                         child: ListTile(
                           title: const Text('Rejected'),
                           leading: Radio(
-                            value: 1,
+                            value: 3,
+                            groupValue: selectedRadio, // Update this
                             onChanged: (value) {
-                              setState(() {});
+                              setState(() {
+                                selectedRadio = value as int;
+                                selectedValue = 'rejected';
+                              });
                             },
-                            groupValue: null,
                           ),
                         ),
-                      )
+                      ),
                     ];
                   },
                 ),

@@ -73,7 +73,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leadingIcon: FluentIcons.add_square_16_filled,
             title: 'Create Court',
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/adding-court');
             },
           ),
           _buildHoverableListTile(
