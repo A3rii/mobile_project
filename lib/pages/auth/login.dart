@@ -60,15 +60,9 @@ class _LoginPageState extends State<LoginPage> {
 
           // Navigate based on role
           if (role == "user") {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+            Navigator.pushReplacementNamed(context, '/');
           } else if (role == "admin") {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const AcceptedPage()),
-            );
+            Navigator.pushReplacementNamed(context, '/dashboard');
           } else {
             throw Exception("Invalid user role");
           }

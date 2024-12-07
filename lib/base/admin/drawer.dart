@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:mobile_project/pages/admin/accept_screen.dart';
-import 'package:mobile_project/pages/user/home.dart';
+import 'package:mobile_project/pages/auth/login.dart';
+import 'package:mobile_project/pages/auth/services/auth_service.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  // Handle Log out function
+  Future<void> handleLogOut() async {
+    try {
+      await AuthService().logOut();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Logged out successfully")),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+
+      return;
+    } on Exception catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("There is something wrong, try again!")),
+      );
+      throw Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,36 +58,28 @@ class CustomDrawer extends StatelessWidget {
           _buildHoverableListTile(
             leadingIcon: FluentIcons.chart_multiple_16_filled,
             title: 'Dashboard',
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/dashboard');
+            },
           ),
           _buildHoverableListTile(
             leadingIcon: FluentIcons.approvals_app_16_filled,
             title: 'Accept Booking',
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AcceptedPage(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/accept');
             },
           ),
           _buildHoverableListTile(
             leadingIcon: FluentIcons.add_square_16_filled,
             title: 'Create Court',
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/');
             },
           ),
           _buildHoverableListTile(
             leadingIcon: FluentIcons.sign_out_20_filled,
             title: 'Log Out',
-            onTap: () {},
+            onTap: () => handleLogOut(),
           ),
         ],
       ),
@@ -72,15 +89,15 @@ class CustomDrawer extends StatelessWidget {
   Widget _buildHoverableListTile(
       {required IconData leadingIcon,
       required String title,
-      required Null Function() onTap}) {
+      required Function() onTap}) {
     return MouseRegion(
       onEnter: (event) {},
       onExit: (event) {},
       child: Material(
-        color: Colors.transparent, // Default background color
+        color: Colors.transparent,
         child: InkWell(
-          onTap: onTap, // Add tap functionality here if needed
-          hoverColor: Colors.grey[300], // Background color on hover
+          onTap: onTap,
+          hoverColor: Colors.grey[300],
           child: ListTile(
             leading: Icon(leadingIcon),
             title: Text(

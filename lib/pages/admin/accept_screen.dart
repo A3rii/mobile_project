@@ -65,6 +65,7 @@ class _AcceptedPageState extends State<AcceptedPage> {
           }
 
           final bookings = snapshot.data!;
+
           final filterPendingbookings = bookings
               .where((booking) => booking['status'] == "pending")
               .toList();
@@ -74,12 +75,57 @@ class _AcceptedPageState extends State<AcceptedPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed: () {},
+                PopupMenuButton(
+                  onSelected: (value) {
+                    // your logic
+                  },
                   icon: const Icon(
                     FluentIcons.filter_12_filled,
                     color: Colors.black,
                   ),
+                  itemBuilder: (BuildContext bc) {
+                    return [
+                      PopupMenuItem(
+                        value: '/hello',
+                        child: ListTile(
+                          title: const Text('Pending'),
+                          leading: Radio(
+                            value: 1,
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            groupValue: null,
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: '/about',
+                        child: ListTile(
+                          title: const Text('Accepted'),
+                          leading: Radio(
+                            value: 1,
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            groupValue: null,
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: '/contact',
+                        child: ListTile(
+                          title: const Text('Rejected'),
+                          leading: Radio(
+                            value: 1,
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            groupValue: null,
+                          ),
+                        ),
+                      )
+                    ];
+                  },
                 ),
                 const Text("Filter",
                     style: TextStyle(

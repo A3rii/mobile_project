@@ -20,6 +20,7 @@ class CourtApi {
     }
   }
 
+// Getting by id
   Future<Map<String, dynamic>> getCourtById(String courtId) async {
     try {
       DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
