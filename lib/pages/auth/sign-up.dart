@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:mobile_project/pages/user/home.dart';
 import 'package:mobile_project/pages/auth/services/auth_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile_project/providers/language_provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -76,185 +79,189 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(height: 40),
-              const Center(
-                child: Image(
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/images/sign_up.png"),
-                  height: 200,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Sign Up",
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text(
-                "Please Sign Up to continue",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: userNameController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(FluentIcons.person_24_regular),
-                  labelText: "Username",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
+    return Consumer<LanguageProvider>(
+        builder: (context, languageProvider, child) {
+      final localizations = AppLocalizations.of(context)!;
+      return Scaffold(
+        body: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 40),
+                const Center(
+                  child: Image(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/images/sign_up.png"),
+                    height: 200,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(FluentIcons.person_24_regular),
-                  labelText: "Email",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
+                const SizedBox(height: 20),
+                Text(
+                  localizations.sign_up,
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: phoneNumberController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(FluentIcons.person_24_regular),
-                  labelText: "Phone Number",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
+                const Text(
+                  "Please Sign Up to continue",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(FluentIcons.lock_closed_24_regular),
-                  labelText: "Password",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
-                  ),
-                ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: confirmPasswordController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(FluentIcons.lock_closed_24_regular),
-                  labelText: "Confirm Password",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
-                  ),
-                ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: handleSignUp,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: userNameController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FluentIcons.person_24_regular),
+                    labelText: localizations.username,
+                    floatingLabelStyle: const TextStyle(color: Colors.green),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                  ),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.green),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Already have an account? ",
-                    style: TextStyle(color: Colors.grey),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FluentIcons.person_24_regular),
+                    labelText: localizations.email,
+                    floatingLabelStyle: const TextStyle(color: Colors.green),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: phoneNumberController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FluentIcons.person_24_regular),
+                    labelText: localizations.phone,
+                    floatingLabelStyle: const TextStyle(color: Colors.green),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FluentIcons.lock_closed_24_regular),
+                    labelText: localizations.password,
+                    floatingLabelStyle: const TextStyle(color: Colors.green),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: confirmPasswordController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FluentIcons.lock_closed_24_regular),
+                    labelText: localizations.confirm_password,
+                    floatingLabelStyle: const TextStyle(color: Colors.green),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: handleSignUp,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    child: Text(
+                      localizations.sign_up,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      localizations.signup_question,
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        localizations.login,
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_project/pages/user/edit_profile.dart';
+import 'package:mobile_project/pages/user/ticket.dart';
 import 'package:mobile_project/widgets/base_layout.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -13,11 +15,6 @@ class SettingsPage extends StatelessWidget {
         Column(
           children: [
             Container(
-                width: double.infinity,
-                margin: const EdgeInsets.only(top: 15.0),
-                padding: const EdgeInsets.all(10.0),
-                child: const Text("Appearance & Language")),
-            Container(
               width: double.infinity,
               margin: const EdgeInsets.only(top: 15.0),
               padding: const EdgeInsets.all(10.0),
@@ -27,9 +24,16 @@ class SettingsPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                      onPressed: () {},
-                      icon: const Icon(FluentIcons.local_language_16_regular)),
-                  const Text("Language")
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TicketPage(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(FluentIcons.ticket_diagonal_16_regular)),
+                  const Text("Tickets")
                 ],
               ),
             ),
@@ -43,10 +47,16 @@ class SettingsPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                      onPressed: () {},
-                      icon:
-                          const Icon(FluentIcons.weather_moon_off_16_regular)),
-                  const Text("Dark mode")
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditProfilePage(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(FluentIcons.person_12_regular)),
+                  const Text("Edit Profile")
                 ],
               ),
             )

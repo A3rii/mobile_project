@@ -4,6 +4,9 @@ import 'package:mobile_project/pages/auth/sign-up.dart';
 import 'package:mobile_project/pages/auth/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile_project/providers/language_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -80,127 +83,131 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(height: 40),
-              const Center(
-                child: Image(
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/images/login.png"),
-                  height: 250,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Login",
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text(
-                "Please login to continue ",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(FluentIcons.person_24_regular),
-                  labelText: "Username",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
+    return Consumer<LanguageProvider>(
+        builder: (context, languageProvider, child) {
+      final localizations = AppLocalizations.of(context)!;
+      return Scaffold(
+        body: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 40),
+                const Center(
+                  child: Image(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/images/login.png"),
+                    height: 250,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(FluentIcons.lock_closed_24_regular),
-                  labelText: "Password",
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.green),
+                const SizedBox(height: 20),
+                Text(
+                  localizations.login,
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: handleLogin,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                Text(
+                  localizations.login_desc,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FluentIcons.person_24_regular),
+                    labelText: localizations.username,
+                    floatingLabelStyle: const TextStyle(color: Colors.green),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                  ),
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.green),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don't have an account? ",
-                    style: TextStyle(color: Colors.grey),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(FluentIcons.lock_closed_24_regular),
+                    labelText: localizations.password,
+                    floatingLabelStyle: const TextStyle(color: Colors.green),
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(color: Colors.green),
+                    ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignUpPage(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+                  obscureText: true,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: handleLogin,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    child: Text(
+                      localizations.login,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      localizations.login_question,
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        localizations.sign_up,
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

@@ -1,0 +1,152 @@
+{
+  "@@locale": "km",
+  "appTitle": "មជ្ឈមណ្ឌលកីឡាបាល់ទាត់",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "court": "តារាង",
+  "@court": {
+    "description": "The title of the account"
+  },
+  "from": "កក់ដោយលោក",
+  "@from": {
+    "description": "The title of the account"
+  },
+  "status": "ស្ថានភាព",
+  "@status": {
+    "description": "The title of the account"
+  },
+  "account": "គណនី",
+  "@account": {
+    "description": "The title of the account"
+  },
+  "account_title": "ត្រៀមខ្លួនក្នុងការកក់តារាង",
+  "@account_title": {
+    "description": "The title of the account_title"
+  },
+  "account_desc": "ចាត់ចែងគណនីរបស់អ្នកនៅទីនេះ",
+  "@account_desc": {
+    "description": "The description of the account section"
+  },
+  "login": "ចូលគណនី",
+  "@login": {
+    "description": "Login button text"
+  },
+  "sign_up": "ចុះឈ្មោះចូលគណនី",
+  "@sign_up": {
+    "description": "Sign Up button text"
+  },
+  "login_desc": "សូមចុះឈ្មោះចូលគណនីដើម្បីបន្ត",
+  "@login_desc": {
+    "description": "Description for the login prompt"
+  },
+  "email": "អ៊ីម៉ែល",
+  "@email": {
+    "description": "Label for the email field"
+  },
+  "phone": "លេខទូរស័ព្ទ",
+  "@phone": {
+    "description": "Label for the phone number field"
+  },
+  "password": "លេខសម្ងាត់",
+  "@password": {
+    "description": "Label for the password field"
+  },
+  "confirm_password": "ផ្ទៀងផ្ទាត់លេខសម្ងាត់",
+  "@confirm_password": {
+    "description": "Label for the confirm password field"
+  },
+  "signup_question": "មានគណនីហើយមែនទេ?",
+  "@signup_question": {
+    "description": "Text asking if the user already has an account"
+  },
+  "username": "ឈ្មោះរបស់អ្នក",
+  "@username": {
+    "description": "Label for the username field"
+  },
+  "login_question": "គ្មានគណនីមែនទេ?",
+  "@login_question": {
+    "description": "Text asking if the user doesn't have an account"
+  },
+  "bottom_nav_1": "ទំព័រដើម",
+  "@bottom_nav_1": {
+    "description": "Label for the home navigation item"
+  },
+  "bottom_nav_2": "គណនី",
+  "@bottom_nav_2": {
+    "description": "Label for the account navigation item"
+  },
+  "bottom_nav_3": "ការកំណត់",
+  "@bottom_nav_3": {
+    "description": "Label for the settings navigation item"
+  },
+  "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+  "@dashboard": {
+    "description": "Title for the dashboard section"
+  },
+  "accept_booking": "ទទួលការកក់",
+  "@accept_booking": {
+    "description": "Button text for accepting a booking"
+  },
+  "edit_profile": "កែប្រវត្តិរូប",
+  "@edit_profile": {
+    "description": "Button text for editing the profile"
+  },
+  "logout": "ចាកចេញ",
+  "@logout": {
+    "description": "Button text for logging out"
+  },
+  "total_booking": "ការកក់សរុប",
+  "@total_booking": {
+    "description": "Label for displaying total bookings"
+  },
+  "total_user": "អ្នកប្រើប្រាស់សរុប",
+  "@total_user": {
+    "description": "Label for displaying total users"
+  },
+  "total_pending": "ការរង់ចាំសរុប",
+  "@total_pending": {
+    "description": "Label for displaying total pending requests"
+  },
+  "sport_admin": "មេធំ",
+  "@sport_admin": {
+    "description": "Title for the sport admin section"
+  },
+  "user_list": "បញ្ជីអ្នកបានកក់",
+  "@user_list": {
+    "description": "Title for the user list section"
+  },
+  "add_court": "បន្ថែមតារាង",
+  "@add_court": {
+    "description": "Button text for adding a new court"
+  },
+  "create_court": "បង្កើតតារាង",
+  "@create_court": {
+    "description": "Title for the create court section"
+  },
+  "approved": "អនុម័ត",
+  "@approve_pending": {
+    "description": "Button text for approving or rejecting requests"
+  },
+  "reject": "បដិសេធ",
+  "@reject": {
+    "description": "Button text for approving or rejecting requests"
+  },
+  "pending": "ស្ថិតក្នុងការរងចាំ",
+  "@pending": {
+    "description": "Button text for approving or rejecting requests"
+  },
+  "all_bookings": "ចំនួនកក់សរុប",
+  "@all_bookings": {
+    "description": "Text for all bookings"
+  },
+  "save_change": "ផ្លាស់ប្តូរ",
+  "@save_change": {
+    "description": "Button for save change"
+  },
+  "filter": "បែងចែក",
+  "@filter": {
+    "description": "Button for filter"
+  }
+
+}

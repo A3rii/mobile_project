@@ -359,8 +359,8 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 50, // Adjust button height
-                  width: 150, // Adjust button width
+                  height: 50,
+                  width: 150,
                   child: ElevatedButton(
                     onPressed: _submitBooking,
                     style: ElevatedButton.styleFrom(

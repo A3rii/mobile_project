@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:mobile_project/base/admin/drawer.dart';
-import 'package:mobile_project/base/admin/app_bar.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddingCourt extends StatefulWidget {
   const AddingCourt({super.key});
@@ -12,152 +14,270 @@ class AddingCourt extends StatefulWidget {
 }
 
 class _AddingCourtState extends State<AddingCourt> {
-  FilePickerResult? result; // Holds selected files
+  List<String> uploadedFileUrls = [];
+  bool isUploading = false;
+  int currentUploadIndex = 0;
+  int totalFilesToUpload = 0;
 
-  // Function to pick files
-  Future<void> pickFiles() async {
-    final fileResult = await FilePicker.platform.pickFiles(
-      allowMultiple: true, // Allow multiple file selection
-    );
+  final TextEditingController courtNameController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
-    if (fileResult != null) {
+  @override
+  void dispose() {
+    courtNameController.dispose();
+    priceController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
+
+// Hosting images to imgbb
+  Future<String?> uploadSingleFile(Uint8List fileBytes, String fileName) async {
+    const apiKey = "9817ffe3e273d72c3554fb4eb8d584ec";
+    final base64Image = base64Encode(fileBytes);
+
+    try {
+      final response = await http.post(
+        Uri.parse("https://api.imgbb.com/1/upload"),
+        body: {
+          'key': apiKey,
+          'image': base64Image,
+          'name': fileName,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        return responseData['data']['url'];
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return null;
+  }
+
+  Future<void> pickAndUploadFiles() async {
+    try {
+      FilePickerResult? fileResult = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.image,
+      );
+
+      if (fileResult != null && fileResult.files.isNotEmpty) {
+        setState(() {
+          isUploading = true;
+          currentUploadIndex = 0;
+          totalFilesToUpload = fileResult.files.length;
+        });
+
+        List<String> newUrls = [];
+
+        for (var file in fileResult.files) {
+          if (file.bytes != null) {
+            setState(() {
+              currentUploadIndex++;
+            });
+
+            final url = await uploadSingleFile(file.bytes!, file.name);
+            if (url != null) {
+              newUrls.add(url);
+            }
+          }
+        }
+
+        setState(() {
+          uploadedFileUrls.addAll(newUrls);
+          isUploading = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("${newUrls.length} files uploaded successfully")),
+        );
+      }
+    } catch (e) {
       setState(() {
-        result = fileResult; // Update the state with selected files
+        isUploading = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
+  }
+
+  Future<void> handleCreateCourt() async {
+    final court = courtNameController.text.trim();
+    final price = priceController.text.trim();
+    final description = descriptionController.text.trim();
+
+    if (court.isEmpty ||
+        price.isEmpty ||
+        description.isEmpty ||
+        uploadedFileUrls.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text("All fields and at least one image are required")),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance.collection('courts').add({
+        'name': court,
+        'price': int.parse(price),
+        'desc': description,
+        'feature_image': uploadedFileUrls[0],
+        'images_preview': [
+          uploadedFileUrls[0],
+          uploadedFileUrls[1],
+          uploadedFileUrls[2],
+          uploadedFileUrls[3],
+        ]
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Court created successfully")),
+      );
+
+      // Clear form
+      courtNameController.clear();
+      priceController.clear();
+      descriptionController.clear();
+      setState(() {
+        uploadedFileUrls.clear();
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(),
-      drawer: const CustomDrawer(),
-      body: ListView(
+      appBar: AppBar(title: const Text("Add Court")),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
-        children: [
-          const Text(
-            "Create Court",
-            style: TextStyle(
-              fontSize: 20,
-              fontFamily: "Mont",
-              fontWeight: FontWeight.bold,
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: isUploading ? null : pickAndUploadFiles,
+              child: isUploading
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const CircularProgressIndicator(color: Colors.white),
+                        const SizedBox(width: 10),
+                        Text(
+                            "Uploading $currentUploadIndex of $totalFilesToUpload"),
+                      ],
+                    )
+                  : const Text("Pick and Upload Files"),
             ),
-          ),
-          const SizedBox(height: 20),
-
-          // Button to pick files
-          ElevatedButton.icon(
-            onPressed: pickFiles,
-            icon: const Icon(FluentIcons.attach_16_regular),
-            label: const Text("Select Files"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          // Display selected files if any
-          if (result != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Selected Files:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: result?.files.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return Text(
-                        result?.files[index].name ?? '',
-                        style: const TextStyle(
-                          fontSize: 14,
+            if (uploadedFileUrls.isNotEmpty)
+              Container(
+                height: 150,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: uploadedFileUrls.length,
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.network(
+                            uploadedFileUrls[index],
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 5);
-                    },
-                  ),
-                ],
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: IconButton(
+                            icon: const Icon(Icons.close, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                uploadedFileUrls.removeAt(index);
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: courtNameController,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(FluentIcons.sport_16_regular),
+                labelText: "Court Type",
+                floatingLabelStyle: TextStyle(color: Colors.green),
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(color: Colors.green),
+                ),
               ),
             ),
-
-          // Court Type Field
-          const TextField(
-            decoration: InputDecoration(
-              prefixIcon: Icon(FluentIcons.sport_16_regular),
-              labelText: "Court Type",
-              floatingLabelStyle: TextStyle(color: Colors.green),
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color: Colors.green),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          // Price Field
-          const TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              prefixIcon: Icon(FluentIcons.currency_dollar_euro_16_regular),
-              labelText: "Price",
-              floatingLabelStyle: TextStyle(color: Colors.green),
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color: Colors.green),
+            const SizedBox(height: 10),
+            TextField(
+              controller: priceController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(FluentIcons.currency_dollar_euro_16_regular),
+                labelText: "Price",
+                floatingLabelStyle: TextStyle(color: Colors.green),
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(color: Colors.green),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-
-          // Description Field
-          const TextField(
-            keyboardType: TextInputType.multiline,
-            maxLines: 3,
-            decoration: InputDecoration(
-              prefixIcon: Icon(FluentIcons.text_description_16_regular),
-              labelText: "Description",
-              floatingLabelStyle: TextStyle(color: Colors.green),
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color: Colors.green),
+            const SizedBox(height: 10),
+            TextField(
+              controller: descriptionController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(FluentIcons.text_description_16_regular),
+                labelText: "Description",
+                floatingLabelStyle: TextStyle(color: Colors.green),
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: BorderSide(color: Colors.green),
+                ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: handleCreateCourt,
+              child: const Text('Create'),
+            ),
+          ],
+        ),
       ),
     );
   }

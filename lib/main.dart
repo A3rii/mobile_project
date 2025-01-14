@@ -2,9 +2,11 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/pages/admin/accept_screen.dart';
+import 'package:mobile_project/pages/admin/courts.dart';
 import 'package:mobile_project/pages/admin/create_court.dart';
 import 'package:mobile_project/pages/admin/dashboard.dart';
 import 'package:mobile_project/pages/user/account.dart';
+import 'package:mobile_project/pages/user/edit_profile.dart';
 import 'package:mobile_project/pages/user/home.dart';
 import 'package:mobile_project/pages/user/ticket.dart';
 import 'package:mobile_project/pages/user/profile.dart';
@@ -12,6 +14,10 @@ import 'package:mobile_project/pages/user/settings.dart';
 import 'package:mobile_project/pages/auth/sign-up.dart';
 import 'package:mobile_project/pages/auth/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mobile_project/providers/language_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,11 +33,17 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-
   runApp(
-    DevicePreview(
-      enabled: true,
-      builder: (context) => const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+        ),
+      ],
+      child: DevicePreview(
+        enabled: true,
+        builder: (context) => const MyApp(),
+      ),
     ),
   );
 }
@@ -39,12 +51,27 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
     return MaterialApp(
       title: 'Flutter Demo',
-      locale: DevicePreview.locale(context),
+      debugShowCheckedModeBanner: false,
+
+      // Bind locale to LanguageProvider
+      locale: languageProvider.currentLocale,
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('km'), // Khmer
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
       builder: DevicePreview.appBuilder,
       initialRoute: '/',
       routes: {
@@ -58,6 +85,8 @@ class MyApp extends StatelessWidget {
         '/accept': (context) => const AcceptedPage(),
         '/dashboard': (context) => const DashboardPage(),
         '/adding-court': (context) => const AddingCourt(),
+        '/court': (context) => const Court(),
+        '/user-edit-profile': (context) => const EditProfilePage(),
       },
     );
   }

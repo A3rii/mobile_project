@@ -26,8 +26,7 @@ class BookingApi {
         'time_start': timeStart,
         'time_end': timeEnd,
         'status': "pending", // Convert DateTime to Firestore Timestamp
-        'created_at':
-            Timestamp.now(), // Optional: Track when booking is created
+        'created_at': Timestamp.now(),
       });
     } on FirebaseException catch (e) {
       throw Exception("Failed to send bookings: ${e.message}");

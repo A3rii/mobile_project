@@ -1,0 +1,154 @@
+{
+  "@@locale": "en",
+  "appTitle": "Football Rental Club",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "court": "Court",
+  "@court": {
+    "description": "The title of the account"
+  },
+  "from": "From",
+  "@from": {
+    "description": "The title of the account"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "The title of the account"
+  },
+  "account": "Account",
+  "@account": {
+    "description": "The title of the account"
+  },
+  "account_title": "Ready To Book a Court",
+  "@account_title": {
+    "description": "The title of the account"
+  },
+  "account_desc": "Manage your email and password, all in one place",
+  "@account_desc": {
+    "description": "The description for the account management section"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login button text"
+  },
+  "sign_up": "Sign up",
+  "@sign_up": {
+    "description": "Sign up button text"
+  },
+  "login_desc": "Please Login to continue",
+  "@login_desc": {
+    "description": "Description for the login prompt"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Label for the email field"
+  },
+  "phone": "Phone Number",
+  "@phone": {
+    "description": "Label for the phone number field"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Label for the password field"
+  },
+  "confirm_password": "Confirm Password",
+  "@confirm_password": {
+    "description": "Label for the confirm password field"
+  },
+  "signup_question": "Already have an account?",
+  "@signup_question": {
+    "description": "Text asking if the user already has an account"
+  },
+  "username": "UserName",
+  "@username": {
+    "description": "Label for the username field"
+  },
+  "login_question": "Don't have an account?",
+  "@login_question": {
+    "description": "Text asking if the user doesn't have an account"
+  },
+  "bottom_nav_1": "Home",
+  "@bottom_nav_1": {
+    "description": "Label for the home navigation item"
+  },
+  "bottom_nav_2": "Account",
+  "@bottom_nav_2": {
+    "description": "Label for the account navigation item"
+  },
+  "bottom_nav_3": "Settings",
+  "@bottom_nav_3": {
+    "description": "Label for the settings navigation item"
+  },
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "Title for the dashboard section"
+  },
+  "accept_booking": "Accept Booking",
+  "@accept_booking": {
+    "description": "Button text for accepting a booking"
+  },
+  "edit_profile": "Edit Profile",
+  "@edit_profile": {
+    "description": "Button text for editing the profile"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Button text for logging out"
+  },
+  "total_booking": "Total Bookings",
+  "@total_booking": {
+    "description": "Label for displaying total bookings"
+  },
+  "total_user": "Total Users",
+  "@total_user": {
+    "description": "Label for displaying total users"
+  },
+  "total_pending": "Total Pending",
+  "@total_pending": {
+    "description": "Label for displaying total pending requests"
+  },
+  "sport_admin": "Sport Admin",
+  "@sport_admin": {
+    "description": "Title for the sport admin section"
+  },
+  "user_list": "User List",
+  "@user_list": {
+    "description": "Title for the user list section"
+  },
+  "add_court": "Add Court",
+  "@add_court": {
+    "description": "Button text for adding a new court"
+  },
+  "create_court": "Create Court",
+  "@create_court": {
+    "description": "Title for the create court section"
+  },
+  "approved": "Approved",
+  "@approve": {
+    "description": "Button text for approving or rejecting requests"
+  },
+  "reject": "Rejected",
+  "@reject": {
+    "description": "Button text for approving or rejecting requests"
+  },
+  
+  "pending": "Pending",
+  "@pending": {
+    "description": "Button text for approving or rejecting requests"
+  },
+  "all_bookings": "All bookings",
+  "@all_bookings": {
+  "description": "Text for all bookings"
+  },
+  "save_change": "Save Change",
+  "@save_change": {
+  "description": "Button for save change"
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "Button for filter"
+  }
+
+
+}

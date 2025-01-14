@@ -42,7 +42,7 @@ class AuthService {
       } else if (e.code == 'invalid-email') {
         message = 'The email address is not valid.';
       } else {
-        message = 'An unexpected error occurred. Please try again.';
+        message = 'Wrong Credentials';
       }
       throw Exception(message);
     }
@@ -64,7 +64,7 @@ class AuthService {
       } else {
         message = 'An unexpected error occurred. Please try again.';
       }
-      throw Exception(message); // Throw the error to be caught in the UI layer
+      throw Exception(message);
     }
   }
 
@@ -72,7 +72,7 @@ class AuthService {
     try {
       await FirebaseAuth.instance.signOut();
     } on FirebaseAuthException catch (e) {
-      throw Exception(e); // Throw the error to be caught in the UI layer
+      throw Exception(e);
     }
   }
 }

@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (user == null) {
       return null;
     }
-    await Future.delayed(const Duration(seconds: 1)); // Simulate delay
+    await Future.delayed(const Duration(seconds: 1));
     final DocumentReference document =
         FirebaseFirestore.instance.collection("users").doc(user.uid);
     try {
