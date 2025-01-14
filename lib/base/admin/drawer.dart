@@ -86,7 +86,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               leadingIcon: FluentIcons.person_12_regular,
               title: localizations.edit_profile,
               onTap: () {
-                Navigator.pushReplacementNamed(context, '/user-edit-profile');
+                Navigator.pushReplacementNamed(context, '/admin-edit-profile');
               },
             ),
             _buildHoverableListTile(

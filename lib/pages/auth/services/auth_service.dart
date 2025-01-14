@@ -26,10 +26,10 @@ class AuthService {
 
       // Add user data to Firestore
       await _firestore.collection('users').doc(uid).set({
-        'uid': uid,
+        'id': uid,
         'name': username,
         'email': email,
-        'phone': phone,
+        'phoneNumber': phone,
         'role': 'user',
         'createdAt': FieldValue.serverTimestamp(),
       });

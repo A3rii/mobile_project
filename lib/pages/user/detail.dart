@@ -6,6 +6,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:mobile_project/services/court_api.dart';
 import 'package:mobile_project/services/booking_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_project/widgets/language_selector.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile_project/providers/language_provider.dart';
 
 class DetailPage extends StatefulWidget {
   final String courtId;
@@ -153,236 +157,265 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: courtFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                "Error: ${snapshot.error}",
-                style: const TextStyle(color: Colors.red),
-              ),
-            );
-          } else if (!snapshot.hasData) {
-            return const Center(child: Text("Court details not available"));
-          }
-
-          final court = snapshot.data!;
-
-          return ListView(
+    return Consumer<LanguageProvider>(
+        builder: (context, languageProvider, child) {
+      final localizations = AppLocalizations.of(context)!;
+      return Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Court image carousel
-              SizedBox(
-                height: 220.0,
-                width: 300.0,
-                child: AnotherCarousel(
-                  images: court['images_preview'] != null
-                      ? court['images_preview']
-                          .map<Widget>(
-                            (url) => ClipRRect(
-                              child: Image.network(
-                                url,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
+              Text(
+                localizations.appTitle, // Localized app title
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Mont',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const LanguageSelector(), // Language selector dropdown
+            ],
+          ),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(40),
+            ),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        body: FutureBuilder<Map<String, dynamic>>(
+          future: courtFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  "Error: ${snapshot.error}",
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
+            } else if (!snapshot.hasData) {
+              return const Center(child: Text("Court details not available"));
+            }
+
+            final court = snapshot.data!;
+
+            return ListView(
+              children: [
+                // Court image carousel
+                SizedBox(
+                  height: 220.0,
+                  width: 300.0,
+                  child: AnotherCarousel(
+                    images: court['images_preview'] != null
+                        ? court['images_preview']
+                            .map<Widget>(
+                              (url) => ClipRRect(
+                                child: Image.network(
+                                  url,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
+                            )
+                            .toList()
+                        : [const Icon(Icons.image_not_supported)],
+                    dotSize: 5.0,
+                    dotSpacing: 20.0,
+                    dotColor: Colors.white,
+                    indicatorBgPadding: 5.0,
+                    dotBgColor: Colors.grey.withOpacity(0.5),
+                    moveIndicatorFromBottom: 180.0,
+                    noRadiusForIndicator: true,
+                  ),
+                ),
+                // Court name and description
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    court['name'] ?? "Unknown Court",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: 'Mont',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    court['desc'] ?? "Cannot load description",
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: 'Mont',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                // Date and time pickers
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: dateController,
+                    onTap: _showDatePicker,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      suffixIcon: const Icon(FluentIcons.calendar_12_regular),
+                      labelText: localizations.select_date,
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        borderSide: BorderSide(color: Colors.green),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextField(
+                          controller: timeStartController,
+                          onTap: () =>
+                              _showTimePicker(timeStartController, true),
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            suffixIcon:
+                                const Icon(FluentIcons.clock_12_regular),
+                            labelText: localizations.start,
+                            filled: true,
+                            fillColor: Colors.white,
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide(color: Colors.white),
                             ),
-                          )
-                          .toList()
-                      : [const Icon(Icons.image_not_supported)],
-                  dotSize: 5.0,
-                  dotSpacing: 20.0,
-                  dotColor: Colors.white,
-                  indicatorBgPadding: 5.0,
-                  dotBgColor: Colors.grey.withOpacity(0.5),
-                  moveIndicatorFromBottom: 180.0,
-                  noRadiusForIndicator: true,
-                ),
-              ),
-              // Court name and description
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  court['name'] ?? "Unknown Court",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontFamily: 'Mont',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  court['desc'] ?? "Cannot load description",
-                  softWrap: true,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontFamily: 'Mont',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              // Date and time pickers
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  controller: dateController,
-                  onTap: _showDatePicker,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    suffixIcon: Icon(FluentIcons.calendar_12_regular),
-                    labelText: "Select Date",
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      borderSide: BorderSide(color: Colors.green),
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: TextField(
-                        controller: timeStartController,
-                        onTap: () => _showTimePicker(timeStartController, true),
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(FluentIcons.clock_12_regular),
-                          labelText: "Start",
-                          filled: true,
-                          fillColor: Colors.white,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(color: Colors.green),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide(color: Colors.green),
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextField(
+                          controller: timeEndController,
+                          onTap: () =>
+                              _showTimePicker(timeEndController, false),
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            suffixIcon:
+                                const Icon(FluentIcons.clock_12_regular),
+                            labelText: localizations.end,
+                            filled: true,
+                            fillColor: Colors.white,
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                              borderSide: BorderSide(color: Colors.green),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        ),
+        bottomNavigationBar: FutureBuilder<Map<String, dynamic>>(
+          future: courtFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.hasError ||
+                !snapshot.hasData) {
+              return const SizedBox.shrink();
+            }
+
+            final court = snapshot.data!;
+
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0), // Rounded corners at the top
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1), // Subtle shadow
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, -1), // Shadow above
                   ),
+                ],
+              ),
+              child: Row(
+                children: <Widget>[
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: TextField(
-                        controller: timeEndController,
-                        onTap: () => _showTimePicker(timeEndController, false),
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(FluentIcons.clock_12_regular),
-                          labelText: "End",
-                          filled: true,
-                          fillColor: Colors.white,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                            borderSide: BorderSide(color: Colors.green),
-                          ),
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${court["price"]}\$/${localizations.hour}",
+                            style: const TextStyle(
+                              fontFamily: "Mont",
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 150,
+                    child: ElevatedButton(
+                      onPressed: _submitBooking,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      child: Text(
+                        localizations.book_now,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ],
-          );
-        },
-      ),
-      bottomNavigationBar: FutureBuilder<Map<String, dynamic>>(
-        future: courtFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.hasError ||
-              !snapshot.hasData) {
-            return const SizedBox.shrink();
-          }
-
-          final court = snapshot.data!;
-
-          return Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0), // Rounded corners at the top
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1), // Subtle shadow
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, -1), // Shadow above
-                ),
-              ],
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: Row(
-                      children: [
-                        Text(
-                          "${court["price"]}\$/hour",
-                          style: const TextStyle(
-                            fontFamily: "Mont",
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    onPressed: _submitBooking,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    child: const Text(
-                      "Book now",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ),
+      );
+    });
   }
 }

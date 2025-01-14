@@ -10,7 +10,7 @@ class BaseLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: const CustomUserAppBar(),
       body: child,
       bottomNavigationBar: const BottomNavigation(),
     );

@@ -148,7 +148,34 @@
   "filter": "Filter",
   "@filter": {
     "description": "Button for filter"
+  },
+  "football_court" : "Football Court",
+  "@football_court": {
+    "description": "Button for filter"
+  },
+  "select_date" : "Select Date",
+  "@select_date": {
+    "description": "Button for filter"
+  },
+  "start" : "Start",
+  "@start": {
+    "description": "Button for filter"
+  },
+  "end" : "End",
+  "@end": {
+    "description": "Button for filter"
+  },
+  "book_now" : "Book Now",
+  "@book_now": {
+    "description": "Button for filter"
+  },
+  "hour" : "Hour",
+  "@hour": {
+    "description": "Button for filter"
+  },
+  "search" : "Search",
+  "@search": {
+    "description": "Button for filter"
   }
-
 
 }

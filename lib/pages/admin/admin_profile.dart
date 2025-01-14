@@ -1,22 +1,20 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mobile_project/base/user/app_bar.dart';
-import 'package:mobile_project/base/user/bottom_navigation.dart';
+import 'package:mobile_project/base/admin/app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_project/base/admin/drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_project/providers/language_provider.dart';
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+class EditAdminProfilePage extends StatefulWidget {
+  const EditAdminProfilePage({Key? key}) : super(key: key);
 
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfilePageState extends State<EditAdminProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -66,7 +64,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Profile updated successfully!")),
           );
-          Navigator.pop(context);
         }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -107,7 +104,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         builder: (context, languageProvider, child) {
       final localizations = AppLocalizations.of(context)!;
       return Scaffold(
-        appBar: const CustomUserAppBar(),
+        appBar: const CustomAppbar(),
+        drawer: const CustomDrawer(),
         body: Padding(
           padding: const EdgeInsets.only(top: 40.0), // Added top margin
           child: SingleChildScrollView(
@@ -125,7 +123,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           height: 150,
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            "assets/images/profile.jpg",
+                            "assets/images/Lee_Min-Ho.jpg",
                           )),
                     ),
                   ),
@@ -200,7 +198,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           ),
         ),
-        bottomNavigationBar: const BottomNavigation(),
       );
     });
   }

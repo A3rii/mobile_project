@@ -147,6 +147,34 @@
   "filter": "បែងចែក",
   "@filter": {
     "description": "Button for filter"
+  },
+  "football_court" : "តារាងបាល់ទាត់",
+  "@football_court": {
+    "description": "Button for filter"
+  },
+   "select_date" : "រើសថ្ងៃ",
+  "@select_date": {
+    "description": "Button for filter"
+  },
+  "start" : "ម៉ោងចាប់ផ្តើម",
+  "@start": {
+    "description": "Button for filter"
+  },
+  "end" : "ម៉ោងបញ្ចប់",
+  "@end": {
+    "description": "Button for filter"
+  },
+  "book_now" : "កក់ឥឡូវ",
+  "@book_now": {
+    "description": "Button for filter"
+  },
+  "hour" : "មួយម៉ោង",
+  "@hour": {
+    "description": "Button for filter"
+  },
+  "search" : "ស្វែងរក",
+  "@search": {
+    "description": "Button for filter"
   }
 
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mobile_project/base/admin/app_bar.dart';
@@ -20,6 +21,7 @@ class _DashboardPageState extends State<DashboardPage> {
   final UserApi userApi = UserApi();
   late Future<Map<String, dynamic>> combinedFuture; // Combined future as a Map
   int touchedIndex = -1;
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -75,7 +77,7 @@ class _DashboardPageState extends State<DashboardPage> {
             final filterUsers = users.where((user) => user["role"] == "user");
             final totalUsers =
                 users.where((user) => user["role"] == "user").length;
-
+            final userName = user?.displayName ?? "User";
             return ListView(
               children: [
                 const SizedBox(height: 10),

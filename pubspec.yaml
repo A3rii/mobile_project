@@ -79,6 +79,7 @@ flutter:
     - assets/images/football-court.jpg
     - assets/images/football-court-1.jpg
     - assets/images/profile.jpg
+    - assets/images/Lee_Min-Ho.jpg
 
 localizations:
   arb-dir: lib/l10n

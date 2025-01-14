@@ -5,6 +5,7 @@ import 'package:mobile_project/pages/auth/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_project/pages/user/home.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_project/providers/language_provider.dart';
 
@@ -195,6 +196,24 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text(
                         localizations.sign_up,
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        localizations.bottom_nav_1,
                         style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.bold,

@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_project/pages/admin/accept_screen.dart';
+import 'package:mobile_project/pages/admin/admin_profile.dart';
 import 'package:mobile_project/pages/admin/courts.dart';
 import 'package:mobile_project/pages/admin/create_court.dart';
 import 'package:mobile_project/pages/admin/dashboard.dart';
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
         '/adding-court': (context) => const AddingCourt(),
         '/court': (context) => const Court(),
         '/user-edit-profile': (context) => const EditProfilePage(),
+        '/admin-edit-profile': (context) => const EditAdminProfilePage(),
       },
     );
   }

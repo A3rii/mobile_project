@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:mobile_project/pages/auth/login.dart';
 import 'package:mobile_project/pages/user/home.dart';
 import 'package:mobile_project/pages/auth/services/auth_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -243,14 +244,32 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePage(),
+                            builder: (context) => const LoginPage(),
                           ),
                         );
                       },
                       child: Text(
                         localizations.login,
                         style: const TextStyle(
-                          color: Colors.blue,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        localizations.bottom_nav_1,
+                        style: const TextStyle(
+                          color: Colors.green,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

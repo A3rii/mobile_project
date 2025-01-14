@@ -4,8 +4,8 @@ import 'package:mobile_project/widgets/language_selector.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_project/providers/language_provider.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+class CustomUserAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomUserAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
